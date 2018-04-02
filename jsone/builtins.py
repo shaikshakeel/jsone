@@ -96,6 +96,22 @@ def build(context):
     def lstrip(s):
         return s.lstrip()
 
+    @builtin('custom_fields', argument_tests=[is_string_or_array])
+    def add_custom_fields(custom_fields_array):
+        formated_custom_fields = {}
+        if len(custom_fields_array) > 0:
+            for i in custom_fields_array:
+                formated_custom_fields[i['ff_name']] = i['field_value']
+        return formated_custom_fields
+
+    @builtin('calculate_chrs')
+    def calculate_chrs(start_time, end_time):
+        start_time_converted = dateutil.parser.parse(start_time)
+        end_time_converted = dateutil.parser.parse(end_time)
+        difference_time = end_time_converted - start_time_converted
+        return int(difference_time.total_seconds() * 100)
+
+
     @builtin('fromNow', variadic=is_string, minArgs=1)
     def fromNow_builtin(offset, reference=None):
         return fromNow(offset, reference or context.get('now'))
