@@ -2,7 +2,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import math
 from .shared import string, to_str, fromNow, JSONTemplateError
-
+import dateutil
+from dateutil import parser
 
 class BuiltinError(JSONTemplateError):
     pass
