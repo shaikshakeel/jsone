@@ -185,11 +185,14 @@ def map(template, context):
 
     def gen(val):
         subcontext = context.copy()
+        map_index = 0
         for elt in val:
             subcontext[each_var] = elt
+            subcontext['index'] = map_index
             elt = renderValue(each_template, subcontext)
             if elt is not DeleteMarker:
                 yield elt
+            map_index = map_index + 1
     if is_obj:
         value = [{'key': v[0], 'val': v[1]} for v in value.items()]
         v = dict()
