@@ -113,8 +113,8 @@ def build(context):
         return int(difference_time.total_seconds() * 100)
 
     @builtin('multiply_number')
-    def multiply_number(number, factor, output_datatype):
-        return output_datatype(number * factor)
+    def multiply_number(number, factor):
+        return int(number * factor)
 
     @builtin('fromNow', variadic=is_string, minArgs=1)
     def fromNow_builtin(offset, reference=None):
