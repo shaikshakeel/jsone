@@ -114,6 +114,8 @@ def build(context):
 
     @builtin('iso_to_utc')
     def iso_to_utc(iso_time, format='%Y-%m-%d %H:%M:%S %Z'):
+        if iso_time is None:
+            return iso_time
         datetime_object = dateutil.parser.parse(iso_time)
         return datetime_object.strftime(format)
 
