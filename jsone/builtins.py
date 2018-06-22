@@ -112,6 +112,11 @@ def build(context):
         difference_time = end_time_converted - start_time_converted
         return int(difference_time.total_seconds() * 100)
 
+    @builtin('iso_to_utc')
+    def iso_to_utc(iso_time, format='%Y-%m-%d %H:%M:%S %Z'):
+        datetime_object = dateutil.parser.parse(iso_time)
+        return datetime_object.strftime(format)
+
     @builtin('multiply_number')
     def multiply_number(number, factor):
         return int(number * factor)
