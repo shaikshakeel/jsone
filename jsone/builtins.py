@@ -128,7 +128,7 @@ def build(context):
     def required_value(key_value):
         if key_value is None:
             raise RequiredValueError
-        elif isinstance(key_value, str) and len(key_value) == 0:
+        elif isinstance(key_value, string) and len(key_value) == 0:
             raise RequiredValueError
         else:
             return key_value
