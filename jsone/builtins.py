@@ -8,6 +8,11 @@ from dateutil import parser
 class BuiltinError(JSONTemplateError):
     pass
 
+class RequiredValueError(Exception):
+  """Required value is missing"""
+  def __init__(self):
+    Exception.__init__(self, "requied value is missing")
+
 
 def build(context):
     builtins = {}
@@ -122,6 +127,15 @@ def build(context):
             return iso_time
         datetime_object = dateutil.parser.parse(iso_time)
         return datetime_object.strftime(format)
+    
+    @builtin('required_value')
+    def required_value(key_value):
+        if key_value is None:
+            raise RequiredValueError
+        elif isinstance(key_value, string) and len(key_value) == 0:
+            raise RequiredValueError
+        else:
+            return key_value
 
     @builtin('multiply_number')
     def multiply_number(number, factor):
