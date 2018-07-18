@@ -101,8 +101,12 @@ def build(context):
     def add_custom_fields(custom_fields_array):
         formated_custom_fields = {}
         if len(custom_fields_array) > 0:
-            for i in custom_fields_array:
-                formated_custom_fields[i['ff_name']] = i['field_value']
+            for custom_field in custom_fields_array:
+                if custom_field['ff_coltype'] == 'date':
+                    custom_field_value = iso_to_utc(custom_field['field_value'])
+                else:
+                    custom_field_value = custom_field['field_value']
+                formated_custom_fields[custom_field['ff_name']] = custom_field_value
         return formated_custom_fields
 
     @builtin('calculate_chrs')
