@@ -4,6 +4,7 @@ import math
 from .shared import string, to_str, fromNow, JSONTemplateError
 import dateutil
 from dateutil import parser
+import dateutil.parser as dp
 
 class BuiltinError(JSONTemplateError):
     pass
@@ -123,6 +124,13 @@ def build(context):
             return iso_time
         datetime_object = dateutil.parser.parse(iso_time)
         return datetime_object.strftime(format)
+
+    @builtin('iso_to_epoch')
+    def iso_to_epoch(iso_timestamp):
+        time = dp.parse(iso_timestamp).strftime('%s.%f')
+        return int(float(time) * 1000)
+
+
     
     @builtin('required_value')
     def required_value(key_value):
