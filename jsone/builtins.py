@@ -131,6 +131,8 @@ def build(context):
 
     @builtin('iso_to_epoch')
     def iso_to_epoch(iso_timestamp):
+        if iso_timestamp is None:
+            return iso_time
         time = dp.parse(iso_timestamp).strftime('%s.%f')
         return int(float(time) * 1000)
 
