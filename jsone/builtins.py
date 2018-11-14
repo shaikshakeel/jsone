@@ -71,6 +71,7 @@ def build(context):
     builtin('max', variadic=is_number, minArgs=1)(max)
     builtin('sqrt', argument_tests=[is_number])(math.sqrt)
     builtin('abs', argument_tests=[is_number])(abs)
+    builtin('int', minArgs=1)(int)
 
     @builtin('ceil', argument_tests=[is_number])
     def ceil(v):
@@ -136,6 +137,15 @@ def build(context):
         time = dp.parse(iso_timestamp).strftime('%s.%f')
         return int(float(time) * 1000)
 
+    @builtin('get')
+    def get(args, key):
+        try:
+            if key in args:
+                return args[key]
+            else:
+                return None
+        except:
+            return None
 
     
     @builtin('required_value')
