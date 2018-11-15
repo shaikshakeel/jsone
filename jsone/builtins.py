@@ -121,7 +121,7 @@ def build(context):
         start_time_converted = dateutil.parser.parse(start_time)
         end_time_converted = dateutil.parser.parse(end_time)
         difference_time = end_time_converted - start_time_converted
-        return int(difference_time.total_seconds() * 100)
+        return int(difference_time.total_seconds() * 1000)
 
     @builtin('iso_to_utc')
     def iso_to_utc(iso_time, format='%Y-%m-%d %H:%M:%S %Z'):
@@ -160,6 +160,16 @@ def build(context):
     @builtin('multiply_number')
     def multiply_number(number, factor):
         return int(number * factor)
+
+    @builtin('divide_number')
+    def divide_number(number, factor):
+        if (factor == 0 or factor == None):
+            raise ZeroDivisionError
+        else:
+            if number == None:
+                return None
+            else:
+                return int(number / factor)
 
     @builtin('fromNow', variadic=is_string, minArgs=1)
     def fromNow_builtin(offset, reference=None):
