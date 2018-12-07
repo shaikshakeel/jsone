@@ -171,6 +171,13 @@ def build(context):
             else:
                 return int(number / factor)
 
+    @builtin('only_one_key_present')
+    def only_one_key_present(dictionary, key):
+        if len(dictionary) == 1 and key in dictionary:
+            return True
+        else:
+            return False
+
     @builtin('fromNow', variadic=is_string, minArgs=1)
     def fromNow_builtin(offset, reference=None):
         return fromNow(offset, reference or context.get('now'))
