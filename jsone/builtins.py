@@ -118,6 +118,8 @@ def build(context):
 
     @builtin('calculate_chrs')
     def calculate_chrs(start_time, end_time):
+        if start_time is None or end_time is None:
+            return None
         start_time_converted = dateutil.parser.parse(start_time)
         end_time_converted = dateutil.parser.parse(end_time)
         difference_time = end_time_converted - start_time_converted
