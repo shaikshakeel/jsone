@@ -116,6 +116,18 @@ def build(context):
                 formated_custom_fields[custom_field['ff_name']] = custom_field_value
         return formated_custom_fields
 
+    @builtin('custom_fields_generic', argument_tests=[is_string_or_array])
+    def add_custom_fields_generic(custom_fields_array):
+        formated_custom_fields = {}
+        if len(custom_fields_array) > 0:
+            for custom_field in custom_fields_array:
+                if custom_field['type'] == 'date':
+                    custom_field_value = iso_to_utc(custom_field['value'])
+                else:
+                    custom_field_value = custom_field['value']
+                formated_custom_fields[custom_field['column']] = custom_field_value
+        return formated_custom_fields
+
     @builtin('calculate_chrs')
     def calculate_chrs(start_time, end_time):
         if start_time is None or end_time is None:
