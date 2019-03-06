@@ -2,7 +2,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import math
 from .shared import string, to_str, fromNow, JSONTemplateError
-import dateutil
+import dateutil, datetime
 from dateutil import parser
 import dateutil.parser as dp
 
@@ -151,6 +151,14 @@ def build(context):
         time = dp.parse(iso_timestamp).strftime('%s.%f')
         return int(float(time) * 1000)
 
+    @builtin('epoch_to_utc')
+    def epoch_to_utc(epoch_time, format='%Y-%m-%d %H:%M:%S UTC'):
+        if epoch_time is None:
+            return epoch_time
+        datetime_object = datetime.datetime.utcfromtimestamp(epoch_time)
+        return datetime_object.strftime(format)
+
+
     @builtin('get')
     def get(args, key):
         try:
@@ -161,7 +169,7 @@ def build(context):
         except:
             return None
 
-    
+
     @builtin('required_value')
     def required_value(key_value):
         if key_value is None:
