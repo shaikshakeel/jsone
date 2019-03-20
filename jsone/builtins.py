@@ -5,6 +5,7 @@ from .shared import string, to_str, fromNow, JSONTemplateError
 import dateutil, datetime
 from dateutil import parser
 import dateutil.parser as dp
+import arrow
 
 class BuiltinError(JSONTemplateError):
     pass
@@ -138,11 +139,15 @@ def build(context):
         return int(difference_time.total_seconds() * 1000)
 
     @builtin('iso_to_utc')
-    def iso_to_utc(iso_time, format='%Y-%m-%d %H:%M:%S %Z'):
+    def iso_to_utc(iso_time):
         if iso_time is None:
             return iso_time
-        datetime_object = dateutil.parser.parse(iso_time)
-        return datetime_object.strftime(format)
+        return str(arrow.get(iso_time).format('YYYY-MM-DD HH:mm:ss UTC'))
+        # date_time_format = '{0.year}-{0.month:02d}-{0.day:02d} {0.hour}:{0.minute}:{0.second} UTC'
+        # if iso_time is None:
+        #     return iso_time
+        # datetime_object = dateutil.parser.parse(iso_time, yearfirst=True)
+        # return date_time_format.format(datetime_object)
 
     @builtin('iso_to_epoch')
     def iso_to_epoch(iso_timestamp):
@@ -156,7 +161,7 @@ def build(context):
         if epoch_time is None:
             return epoch_time
         datetime_object = datetime.datetime.utcfromtimestamp(epoch_time)
-        return datetime_object.strftime(format)
+        return
 
 
     @builtin('get')
