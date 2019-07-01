@@ -5,7 +5,7 @@ from .shared import string, to_str, fromNow, JSONTemplateError
 import dateutil, datetime
 from dateutil import parser
 import dateutil.parser as dp
-import arrow
+import arrow, re
 
 class BuiltinError(JSONTemplateError):
     pass
@@ -148,6 +148,13 @@ def build(context):
         #     return iso_time
         # datetime_object = dateutil.parser.parse(iso_time, yearfirst=True)
         # return date_time_format.format(datetime_object)
+    
+    @builtin('camel_to_snake')
+    def camel_to_snake(camel_string):
+        if camel_string is None:
+            return camel_string
+        s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', camel_string)
+        return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
 
     @builtin('iso_to_epoch')
     def iso_to_epoch(iso_timestamp):
